@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>Anti TCC - Manual</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<style type="text/css">
+			html, body {
+				margin: 0px;
+				padding: 0px;
+				background-color: white;
+				color: black;
+			}
+			.toplink {
+				font-size: smaller;
+				float: right;
+			}
+			#header {
+				margin: 0px;
+				padding: 10px;
+				color: #000;
+				background-color: #ddd;
+				border-bottom: 1px solid #000000;
+			}
+			#body {
+				padding: 6pt;
+			}
+			h1, h2, h3 {
+				margin-top: 12pt;
+				margin-bottom: 6pt;
+			}
+			p {
+				margin-top: 6pt;
+				margin-bottom: 6pt;
+			}
+			.ini {
+				font-family: monospace;
+				white-space: pre;
+				border: dashed 1px black;
+				padding: 4px;
+				color: #000;
+				background-color: #eee;
+			}
+			a {
+				text-decoration: none;
+			}
+			a:link {
+				color: #008;
+			}
+			a:visited {
+				color: #408:
+			}
+			a:hover {
+				text-decoration: underline;
+			}
+			a[href^="http"] {
+				border-bottom: dotted 1px black;
+			}
+			.ini a {
+				text-decoration: none;
+				color: #333;
+			}
+			.ini a:hover {
+				text-decoration: underline;
+				color: #448;
+			}
+			dt {
+				margin-top: 6pt;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body id="top">
+		<div id="header">
+			<h1>Anti TCC</h1>
+			<p>Security Mutator Release 6<br />Copyright &copy; 2003-2009 by <a href="http://www.koehler-homepage.de/Wormbo/">Wormbo</a></p>
+		</div>
+		<div id="body">
+			<h2 id="hcontents">Contents</h2>
+			<div id="pcontents">
+				<ul>
+					<li>
+						<a href="#hintro">Introduction</a>
+					</li>
+					<li>
+						<a href="#hinstalls">Installation (Server)</a>
+					</li>
+					<li>
+						<a href="#hinstallc">Installation (Client)</a>
+					</li>
+					<li>
+						<a href="#hconfig">Configuration</a>
+					</li>
+					<li>
+						<a href="#hfeatures">Client Features</a>
+					</li>
+					<li>
+						<a href="#hpaq">Potentially Asked Questions</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="toplink">[<a href="#top">top</a>]</div>
+			<h2 id="hintro">Introduction</h2>
+			<div id="pintro">
+				<p>Anti TCC is a mutator designed to prevent cheating in Unreal Tournament 2004 online matches.<br />
+Its goal is to prevent cheats (such as aimbots, triggerbots, radars, skin hacks, wallhacks, etc.) from being loaded or used. Even if Anti TCC can't detect certain cheats directly, it still does its best to make them unusable. It also prevents some exploits that can crash an unpatched server or remove a CTF flag from the map.</p>
+			</div>
+
+			<div class="toplink">[<a href="#top">top</a>]</div>
+			<h2 id="hinstalls">Installation (Server)</h2>
+			<div id="pinstalls">
+				<p>To install Anti TCC on your server, simply extract the content of the ZIP archive to your server's System directory.<br />See the <a href="#hconfig">Configuration</a> section for more details about configuring Anti TCC on your server.</p>
+				<p>The ZIP file contains the following files:</p>
+				<dl>
+					<dt>AntiTCC_2026r3.u</dt>
+					<dd>The main package file containing the Anti TCC code.</dd>
+					<dt>AntiTCC_2026r3.ucl</dt>
+					<dd>A cache library file that adds Anti TCC to the mutators list.</dd>
+					<dt>AntiTCC_2026r3.u.uz2</dt>
+					<dd>A compressed version of AntiTCC_2026r3.u, which should be uploaded to your <a href="http://wiki.unrealadmin.org/Redirection_and_Compression">redirected download server</a>, if you use one. (Not required on the game server.)</dd>
+					<dt>AntiTCC_2026r3.html</dt>
+					<dd>This help file. (Not required on the game server.)</dd>
+				</dl>
+				<p>To make sure Anti TCC is loaded all the time, add the following line to the [Engine.GameEngine] section of your server's main INI file (usually UT2004.ini):</p>
+				<pre class="ini">ServerActors=AntiTCC_2026r3.MutAntiTCCFinal</pre>
+				<p>The ServerActors line already ensures Anti TCC is loaded all the time, so you do not need to add it to other mutator loaders, such as UT2Vote's ServerMuts list. If you only want to load Anti TCC in certain configurations, e.g. via map voting, add it in the "?mutator=" the URL parameter instead.</p>
+				<p>If you want to record demos on the server or the clients, you should also add the following line in the [Engine.GameEngine] section:</p>
+				<pre class="ini">ServerPackages=AntiTCC2009r6</pre>
+				<p>BTW: You don't need to worry about <a href="http://wiki.unrealadmin.org/WhiteListed_Mutators">whitelisting</a>, Anti TCC "inherits" its whitelist status from earlier versions as the mutator name has not changed.</p>
+			</div>
+
+			<div class="toplink">[<a href="#top">top</a>]</div>
+			<h2 id="hinstallc">Installation (Client)</h2>
+			<div id="pinstallc">
+				<p>As a client you should not install Anti TCC. When connecting to a server running Anti TCC, the package will be downloaded into your UT2004 Cache directory. The download is small and fast, and you will always have the correct version required by the server.</p>
+				<p>Unless the server admin has disabled all client messages, you can find out wich version of Anti TCC is running on the server by typing <kbd>Ver</kbd> at the console. See <a href="#hfeatures">Client Features</a> for other features of Anti TCC you can use as a client.</p>
+			</div>
+
+			<div class="toplink">[<a href="#top">top</a>]</div>
+			<h2 id="hconfig">Configuration</h2>
+			<div id="pconfig">
+				<p>Many of Anti TCC's settings can be modified at runtime through the webadmin interface and only require a map restart to take effect. Some features, such as MD5 checks and blacklists, must be configured manually by editing the server's INI file by hand. By default this INI file is called UT2004.ini, but depending on your game server setup, a different file name may be used. Contact your game server provider if you need information about the file name or on how to edit the configuration file.</p>
+				<h3>Anti TCC default configuration</h3>
+				<pre class="ini">[<a href="#AntiTCCSecurity">AntiTCC_2026r3.AntiTCCSecurity</a>]
+<a href="#DisallowedFile">DisallowedFile</a>=
+<a href="#DisallowedFile">DisallowedFile</a>=
+<a href="#DisallowedPrefetchFile">DisallowedPrefetchFile</a>=
+<a href="#DisallowedPrefetchFile">DisallowedPrefetchFile</a>=
+<a href="#MD5Check">MD5Check</a>=(FName="UTCompv15",MD5=("9c73b7c9118f419cf17ab9fe76def7b8"),MD5Type=0,Optional=True)
+<a href="#MD5Check">MD5Check</a>=(FName="UTCompv15a",MD5=("251f81b91f2b3dab59cc62b8bad18ba0"),MD5Type=0,Optional=True)
+<a href="#MD5Check">MD5Check</a>=(FName="UTCompv16",MD5=("f30932a51e681f15aaba55224d28f597"),MD5Type=0,Optional=True)
+<a href="#MD5Check">MD5Check</a>=(FName="UTCompv16a",MD5=("e29c11765ed64dc074e586439a181815"),MD5Type=0,Optional=True)
+<a href="#MD5Check">MD5Check</a>=(FName="UTCompv17a",MD5=("5873f0aa58df1ced319593360e49b68f"),MD5Type=0,Optional=True)
+<a href="#MD5Check">MD5Check</a>=(FName="FarnsworthCore",MD5=("7c781e5d4d086b7695200e70d62449c7"),MD5Type=0,Optional=True)
+
+[<a href="#MutAntiTCCFinal">AntiTCC_2026r3.MutAntiTCCFinal</a>]
+<a href="#bAllowClientConsoleMessages">bAllowClientConsoleMessages</a>=True
+<a href="#bBroadcastConsoleErrorMessages">bBroadcastConsoleErrorMessages</a>=True
+<a href="#bMessageBeep">bMessageBeep</a>=True
+<a href="#bBroadcastClientScreenMessages">bBroadcastClientScreenMessages</a>=True
+<a href="#bDisplayProgressMessages">bDisplayProgressMessages</a>=True
+<a href="#bDisplayProgressScreenMessages">bDisplayProgressScreenMessages</a>=True
+<a href="#bClientsMayGetIDs">bClientsMayGetIDs</a>=True
+<a href="#bShowOnlyFirstPartOfID">bShowOnlyFirstPartOfID</a>=True
+<a href="#bShowOnlyLastPartOfID">bShowOnlyLastPartOfID</a>=True
+<a href="#bClientsMayGetNames">bClientsMayGetNames</a>=True
+<a href="#bServerOSInServerDetails">bServerOSInServerDetails</a>=True
+<a href="#bAntiTCCVersionInServerDetails">bAntiTCCVersionInServerDetails</a>=True
+<a href="#bCheckSkins">bCheckSkins</a>=True
+<a href="#bSingleMD5Mode">bSingleMD5Mode</a>=False
+<a href="#bCheckForTCCs">bCheckForTCCs</a>=True
+<a href="#bLogClientPackages">bLogClientPackages</a>=False
+<a href="#bLogClientClasses">bLogClientClasses</a>=False
+<a href="#bCheckClientClasses">bCheckClientClasses</a>=True
+<a href="#bDelayMatchStart">bDelayMatchStart</a>=False
+<a href="#bDelayLateJoin">bDelayLateJoin</a>=False
+<a href="#bCheckRenderSettings">bCheckRenderSettings</a>=True
+<a href="#TimeoutSeconds">TimeoutSeconds</a>=60
+<a href="#bKickOnTimeout">bKickOnTimeout</a>=True
+<a href="#bSelfIntegrityChecks">bSelfIntegrityChecks</a>=True
+<a href="#WhatToDo">WhatToDo</a>=Kick
+<a href="#WhatToDoAnnoyance">WhatToDoAnnoyance</a>=TempBan
+<a href="#WhatToDoBlacklisted">WhatToDoBlacklisted</a>=SessionBan
+<a href="#WhatToDoSkins">WhatToDoSkins</a>=Kick
+<a href="#WhatToDoRender">WhatToDoRender</a>=Message
+<a href="#WhatToDoTCC">WhatToDoTCC</a>=Kick
+<a href="#WhatToDoLoginFailed">WhatToDoLoginFailed</a>=SessionBan
+<a href="#bPauseGameDuringChecks">bPauseGameDuringChecks</a>=False
+<a href="#bEnableAdminFaker">bEnableAdminFaker</a>=True
+<a href="#bAllowSilentAdminLogin">bAllowSilentAdminLogin</a>=True
+<a href="#bReportAdminLogins">bReportAdminLogins</a>=True
+<a href="#MaxFailedLoginAttempts">MaxFailedLoginAttempts</a>=2
+<a href="#bNoSpamCheck">bNoSpamCheck</a>=False
+<a href="#bPreventMassSuicide">bPreventMassSuicide</a>=True
+<a href="#bFilterPlayerNames">bFilterPlayerNames</a>=True
+<a href="#bStripMessageColors">bStripMessageColors</a>=True
+<a href="#PlayerIDLogName">PlayerIDLogName</a>=AntiTCCPlayerIDs
+<a href="#KeepPlayerIDsDays">KeepPlayerIDsDays</a>=30
+<a href="#AllowedConsoleClass">AllowedConsoleClass</a>=xInterface.ExtendedConsole
+<a href="#AllowedGUIControllerClass">AllowedGUIControllerClass</a>=GUI2K4.UT2K4GUIController
+<a href="#bTryToDisableHacks">bTryToDisableHacks</a>=False
+<a href="#bMidGameCheck">bMidGameCheck</a>=True
+<a href="#bMultipleMidGameChecks">bMultipleMidGameChecks</a>=True
+<a href="#bEndGameCheck">bEndGameCheck</a>=True
+<a href="#bRotationLock">bRotationLock</a>=True
+<a href="#bLockRolloff">bLockRolloff</a>=True
+<a href="#bLockFOV">bLockFOV</a>=False
+<a href="#bSpawnFakePlayers">bSpawnFakePlayers</a>=True
+<a href="#bUseCustomLog">bUseCustomLog</a>=True
+<a href="#bSimpleLogMode">bSimpleLogMode</a>=True
+<a href="#bAlwaysProduceCompleteLogs">bAlwaysProduceCompleteLogs</a>=True
+<a href="#LogFileSaveInterval">LogFileSaveInterval</a>=30
+<a href="#LogFileTimestampFormat">LogFileTimestampFormat</a>=[yyyy-mm-dd hh:nn:ss] -
+<a href="#LogFileName">LogFileName</a>=AntiTCC_%y-%m-%d_%h-%n_%g_%l
+<a href="#bSingleLineLogs">bSingleLineLogs</a>=False
+<a href="#CurrentProfile">CurrentProfile</a>=
+<a href="#WaitingGameClass">WaitingGameClass</a>=
+<a href="#AgreeEnableDelay">AgreeEnableDelay</a>=5
+<a href="#AgreementTimeoutDelay">AgreementTimeoutDelay</a>=60
+<a href="#AgreementText">AgreementText</a>=
+<a href="#bAlwaysShowAgreement">bAlwaysShowAgreement</a>=False</pre>
+
+				<h3 id="AntiTCCSecurity">Section [AntiTCC_2026r3.AntiTCCSecurity]</h3>
+			Due to technical restrictions these properties are not available from the webadmin interface and must be configured by directly editing the main configuration file of the server. (usually UT2004.ini or server.ini)
+			<dl>
+				<dt id="DisallowedFile">DisallowedFile</dt>
+				<dd>Specifies files or packages the client should not have. This setting works similarly to the ServerPackages list, i.e. you can use it multiple times to specify more than one blacklisted file or package.<br/>
+				If you want to take advantage of the client's package path settings for finding package files, make sure you don't use '.' or (back)slashes. If you do, the path will be relative to the client's System directory. For greater flexibility you can use the wildcard characters '?' and '*' which stand for a single and multiple characters respectively. For example, <samp>DisallowedFile=foo.*</samp> will blacklist any files with the name "foo" and any file extension in the UT2004\System directory of the client. <samp>DisallowedFile=foo</samp> will blacklist any package file with the name "foo", for example "System\foo.u", "Textures\foo.utx" or "Maps\foo.ut2".<br/>
+				Careful with disallowing "*helios*" here, there's some legit content using this name!</dd>
+				<dt id="DisallowedPrefetchFile">DisallowedPrefetchFile</dt>
+				<dd>Since the executables of native cheats often aren't located in the UT2004 directory, checking the <a href="http://en.wikipedia.org/wiki/Prefetcher">prefetch</a> directory at least provides a small chance for success. Yes, cheaters could disable prefetching, but there are enough of them who don't bother reading the manual and get caught anyway.<br/>
+				The same wildcards as with DisallowedFile can be used here. Just specify the names of the .exe files whose prefetch entry you want to detect. For example "foo*.exe" will detect all prefetch entries of executable files whose name starts with "foo".</dd>
+				<dt id="MD5Check">MD5Check</dt>
+				<dd>While the previous two settings only blacklisted files, this one can actually check the integrity of files. The value for each MD5Check entry consists of the following values:<dl>
+					<dt>FName</dt>
+					<dd>The name of the object to check. The correct format here depends on the type of check.</dd>
+					<dt>MD5</dt>
+					<dd>The recognized <a href="http://en.wikipedia.org/wiki/MD5">MD5</a> hash(es) of the object.</dd>
+					<dt>MD5Type</dt>
+					<dd>The type of check to perform. Valid values are 0 and 2, but in certain cases you might want to use type 1 as well.</dd>
+					<dt>Optional</dt>
+					<dd>Whether the object is optional. Optional checks don't fail if the object to check is missing on the client. Valid values are <samp>True</samp> and <samp>False</samp>.</dd>
+				</dl>
+				The MD5Type 0 is known as "Quick MD5" and can only be used for Unreal packages. It is useful for large data packages because it can be performed very quickly regardless of package size. Of course this comes with the price of reduced efficiency. The FName for a Quick MD5 check is just the package name. Anti TCC comes with built-in quick MD5 checks for itself and the default player skin and model packages.<br/>
+				To perform a full MD5 check of the entire file content, use MD5Type 2. By default Anti TCC only performs a full MD5 check for itself. Like for the DisallowedFile checks you can let Anti TCC search for an Unreal package by only specifying its name without directory or extension. Note that wildcards are not allowed here. Full MD5 checks can also be used as an alternative way to blacklist certain files entirely by using the value "not allowed" instead of a reference MD5 hash.<br/>
+				The MD5 part expects a list of comma-separated values with each value enclosed in double quotes and the entire list enclosed in round parentheses. And entire MD5Check value might look like the following example:<br/>
+				<samp>MD5Check=(FName="Engine",MD5=("1972d14c57d05ffdc82c51be76c13d29","71f1bebad09f22f22d49d74c172ec561"),MD5Type=2,Optional=False)</samp><br/>
+				These are the (full) MD5 hashes for the Engine.u package of UT2004 v3369 (latest official patch) and v3372 (inofficial Logitech G15 patch).<br/>
+				MD5 checks for Unreal packages (no file extension or path specified) also serve as a "whitelist" for unknown classes, but only for packages that don't exist on the server.</dd>
+				</dl>
+				<h3 id="MutAntiTCCFinal">Section [AntiTCC_2026r3.MutAntiTCCFinal]</h3>
+				<p>These properties are also available in the webadmin interface. Their display name there is similar to the INI setting names listed here.</p>
+				<dl>
+					<dt id="bAllowClientConsoleMessages">bAllowClientConsoleMessages</dt>
+					<dd>Whether Anti TCC should display messages in the client's console at all. Turning this off will also disable the client console commands for non-admin players.</dd>
+					<dt id="bBroadcastConsoleErrorMessages">bBroadcastConsoleErrorMessages</dt>
+					<dd>Whether Anti TCC should broadcast its insecurity messages to all clients. The message will be displayed in the client's console.</dd>
+					<dt id="bMessageBeep">bMessageBeep</dt>
+					<dd>Whether Anti TCC should play a beep sound when it broadcasts an insecurity message.</dd>
+					<dt id="bBroadcastClientScreenMessages">bBroadcastClientScreenMessages</dt>
+					<dd>Whether Anti TCC should display a big red message in the middle of all clients' screens when an insecurity was found.</dd>
+					<dt id="bDisplayProgressMessages">bDisplayProgressMessages</dt>
+					<dd>Whether Anti TCC should display its check progress on the client.</dd>
+					<dt id="bDisplayProgressScreenMessages">bDisplayProgressScreenMessages</dt>
+					<dd>Whether the progress messages should be displayed in the middle of the screen. Disabling this without disabling progress messages altogether will display them in the chat area.</dd>
+					<dt id="bClientsMayGetIDs">bClientsMayGetIDs</dt>
+					<dd>Whether clients may use the commands "ShowIDs", "Whois" and "Whowas" to find out other players' IDs. If this is disabled, only "Whois" can be used and it will only display other names that player has used.</dd>
+					<dt id="bShowOnlyFirstPartOfID">bShowOnlyFirstPartOfID</dt>
+					<dt id="bShowOnlyLastPartOfID">bShowOnlyLastPartOfID</dt>
+					<dd>These two settings control, which part of a player ID is visible to non-admin clients. If either of them is enabled, only the first or last eight digits of the ID are visible. If both are enabled, the first and last eight digits are visible. If both are disabled, the entire ID is visible.</dd>
+					<dt id="bClientsMayGetNames">bClientsMayGetNames</dt>
+					<dd>Whether clients are allowed to use the "Whois" and "Whowas" commands to find out other names a player has used. If this is disabled, only "Whois" can be used, and only for displaying the ID of the player, unless bClientsMayGetIDs is disabled as well.</dd>
+					<dt id="bServerOSInServerDetails">bServerOSInServerDetails</dt>
+					<dd>Adds the server type (Windows/*nix/Mac, 32/64bit) to the server details.</dd>
+					<dt id="bAntiTCCVersionInServerDetails">bAntiTCCVersionInServerDetails</dt>
+					<dd>Adds the Anti TCC version to the server details.</dd>
+					<dt id="bCheckSkins">bCheckSkins</dt>
+					<dd>Whether Anti TCC should check the default skins for modifications. This includes the default skin definitions in UPL files and the default model and texture packages. This setting is recommended over MD5-checking UPL files directly as those files contain harmless settings that are completely safe to modify.</dd>
+					<dt id="bSingleMD5Mode">bSingleMD5Mode</dt>
+					<dd>Only accepts the first MD5 value specified in each MD5Check entry.</dd>
+					<dt id="bCheckForTCCs">bCheckForTCCs</dt>
+					<dd>Whether Anti TCC should pay special attention to the "set command ID" a player will receive when using certain commands before entering the server. Note that this ID is also globally banned by the Epic Games master server and in UTAN.</dd>
+					<dt id="bAllowOldClients">bAllowOldClients</dt>
+					<dd>Whether Anti TCC should allow clients whose UT2004 version is older than v3369. Clients attempting to connect with an older version will receive a message prompting them to update. The message will contain a button that leads them directly to the <a href="http://www.beyondunreal.com/main/ut2004/ut2004essential.php">BeyondUnreal Essential UT2004 Files</a> page.<br/>
+					<em>This option has been removed in Anti TCC 2009 R6. Client versions other than 3369 and 3372 (the Logitech G15 patch) are no longer supported.</em></dd>
+					<dt id="bLogClientPackages">bLogClientPackages</dt>
+					<dd>Whether Anti TCC should list all packages loaded on clients in the Anti TCC log file.</dd>
+					<dt id="bLogClientClasses">bLogClientClasses</dt>
+					<dd>Whether Anti TCC should list all classes loaded on clients in the Anti TCC log file.</dd>
+					<dt id="bCheckClientClasses">bCheckClientClasses</dt>
+					<dd>Whether Anti TCC should check the classes loaded on clients for blacklist entries.</dd>
+					<dt id="bDelayMatchStart">bDelayMatchStart</dt>
+					<dd>Whether Anti TCC should delay the start of the match until all players have been validated. Note that the match start is delayed anyway until critical (lagging) checks have passed.</dd>
+					<dt id="bDelayLateJoin">bDelayLateJoin</dt>
+					<dd>Whether a client player is forced to spectate until validated.</dd>
+					<dt id="bCheckRenderSettings">bCheckRenderSettings</dt>
+					<dd>Whether render settings should be checked. This includes settings that make the textures extremely blurry or even single-colored. It also includes certain commands that must be entered before joining the server to improve player visibility, especially a long range and when using the Invisibility combo.</dd>
+					<dt id="TimeoutSeconds">TimeoutSeconds</dt>
+					<dd>If Anti TCC doesn't get a reply to a check request within this duration, the corresponding client is kicked for security reasons. Just to make this clear: Timeout kicks do not imply cheating!</dd>
+					<dt id="bKickOnTimeout">bKickOnTimeout</dt>
+					<dd>Whether clients should be kicked if any check times out. Really recommended!</dd>
+					<dt id="bSelfIntegrityChecks">bSelfIntegrityChecks</dt>
+					<dd>Some checks are too expensive to perform them under server control. This setting determines whether Anti TCC should perform self-integrity checks to ensure the reference values of those checks are valid. Really recommended!</dd>
+					<dt id="WhatToDo">WhatToDo</dt>
+					<dd>What Anti TCC is supposed to do when a standard insecurity was found.</dd>
+					<dt id="WhatToDoAnnoyance">WhatToDoAnnoyance</dt>
+					<dd>What Anti TCC is supposed to do if a player repeatedly triggers message-only insecurities, especially for render settings, mass suicide, mass name change or text flood.</dd>
+					<dt id="WhatToDoBlacklisted">WhatToDoBlacklisted</dt>
+					<dd>What Anti TCC is supposed to do when it finds black-listed objects on the client. (This does not include regular MD5Checks with a reference MD5 value.)</dd>
+					<dt id="WhatToDoSkins">WhatToDoSkins</dt>
+					<dd>What Anti TCC is supposed to do when a client has modified character entries, i.e. non-standard skin or model for a standard character.</dd>
+					<dt id="WhatToDoRender">WhatToDoRender</dt>
+					<dd>What Anti TCC is supposed to do when it finds that the client has invalid render settings.</dd>
+					<dt id="WhatToDoTCC">WhatToDoTCC</dt>
+					<dd>What Anti TCC is supposed to do if a client used certain console commands before entering the server.</dd>
+					<dt id="WhatToDoLoginFailed">WhatToDoLoginFailed</dt>
+					<dd>What Anti TCC is supposed to do if a when a client repeatedly attempts to log in as admin with incorrect credentials.</dd>
+					<dt id="bPauseGameDuringChecks">bPauseGameDuringChecks</dt>
+					<dd>Whether the game should be paused for the dureation of the checks if a new player joins and needs to be validated. This is mainly meant for tournament and league matches where it would be unfair to continue after a player dropped.</dd>
+					<dt id="bEnableAdminFaker">bEnableAdminFaker</dt>
+					<dd>Many aimbots have an "admin protection" feature that automatically disconnects the cheater when an admin arrives. This setting fakes the presence of a player who is logged in as admin. Cheaters will have to turn off their admin detection if they want to play on the server.</dd>
+					<dt id="bAllowSilentAdminLogin">bAllowSilentAdminLogin</dt>
+					<dd>Whether admins are allowed to log in without other players noticing. Again, this is mainly targeted at aimbots with an "admin protection" feature. Admins can use this feature to silently log in and e.g. record a server demo of the cheater or get the cheater's complete ID with the "ShowIDs" command.</dd>
+					<dt id="bReportAdminLogins">bReportAdminLogins</dt>
+					<dd>Whether successful admin logins should be reported in the Anti TCC log file. This also happens in simple log mode, </dd>
+					<dt id="MaxFailedLoginAttempts">MaxFailedLoginAttempts</dt>
+					<dd>The maximum number of admin logins a client is allowed to fail before Anti TCC blocks the client's GUID for the remainder of the session and potentially kicks or bans the client.</dd>
+					<dt id="bNoSpamCheck">bNoSpamCheck</dt>
+					<dd>Disables Anti TCC's text flood check.</dd>
+					<dt id="bPreventMassSuicide">bPreventMassSuicide</dt>
+					<dd>Enables Anti TCC's mass suicide check.</dd>
+					<dt id="bFilterPlayerNames">bFilterPlayerNames</dt>
+					<dd>Whether Anti TCC should filter invalid/invisible characters from player names.</dd>
+					<dt id="bStripMessageColors">bStripMessageColors</dt>
+					<dd>Whether Anti TCC should strip color codes from chat messages.</dd>
+					<dt id="PlayerIDLogName">PlayerIDLogName</dt>
+					<dd>The name of the INI file anti TCC will use to keep track of ID and names for the "Whois" and "Whowas" commands. Those commands will not be available if player ID logging is disabled due to an empty PlayerIDLogName.</dd>
+					<dt id="KeepPlayerIDsDays">KeepPlayerIDsDays</dt>
+					<dd>How long old player IDs and names should be kept in the database. By default players who haven't visited the server in the last 30 days are removed.</dd>
+					<dt id="AllowedConsoleClass">AllowedConsoleClass</dt>
+					<dd>The console class clients are expected to use. This setting should only be adjusted for total conversion servers as it will prevent Anti TCC from securing the console.</dd>
+					<dt id="AllowedGUIControllerClass">AllowedGUIControllerClass</dt>
+					<dd>The GUIController class clients are expected to use. Again, this setting should only be adjusted for total conversion servers.</dd>
+					<dt id="bTryToDisableHacks">bTryToDisableHacks</dt>
+					<dd>Whether Anti TCC should attempt to disable any potential hacks it finds. If enabled, Anti TCC will try to close and remove unknown menus, interactions and other objects safely. This is not guaranteed to work, so kicking the suspicious player usually is the better choice.</dd>
+					<dt id="bMidGameCheck">bMidGameCheck</dt>
+					<dd>Whether Anti TCC should repeat some of its more expensive checks in the middle of the match. These checks will only occur when the player dies and at least five minutes after the player was verified. During a mid-game check, the player will not automatically respawn, even if force-respawn is enabled on the server.</dd>
+					<dt id="bMultipleMidGameChecks">bMultipleMidGameChecks</dt>
+					<dd>Since a cheater could just wait for the mid-game check to occur before loading his cheats, Anti TCC offers the option to repeat the checks every five minutes.</dd>
+					<dt id="bEndGameCheck">bEndGameCheck</dt>
+					<dd>Like the mig-game check, but performed at the end of the match.</dd>
+					<dt id="bRotationLock">bRotationLock</dt>
+					<dd>Whether Anti TCC should attempt to lock the view rotation so it can't be affected by aimbots.</dd>
+					<dt id="bLockRolloff">bLockRolloff</dt>
+					<dd>Whether Anti TCC should lock the audio roll-off value (i.e. how quickly a sound's volume decreases with its distance to the listener) to its on-connect value, but at least to 0.4. Very low values could be used to hear the footsteps of other players even if they are very far away.</dd>
+					<dt id="bLockFOV">bLockFOV</dt>
+					<dd>Whether Anti TCC should lock the default FOV to its on-connect value. Some players implement a "mini zoom" by playing on a higher FOV by default, but reduce the FOV to the lowest allowed value (80) when they need it.</dd>
+					<dt id="bSpawnFakePlayers">bSpawnFakePlayers</dt>
+					<dd>Whether Anti TCC should spawn invisible fake players clientsidely to confuse aimbots and mess up radar cheats. These are far more efficient than the old fake players back in version 1.19 and should barely affect performance at all.</dd>
+					<dt id="bUseCustomLog">bUseCustomLog</dt>
+					<dd>Whether Anti TCC should serversidely log to a dedicated log file in the UserLogs directory.</dd>
+					<dt id="bSimpleLogMode">bSimpleLogMode</dt>
+					<dd>Whether Anti TCC should keep the log file simpler. In simple log mode, Anti TCC will not produce any log file at all if it doesn't detect any insecurities.</dd>
+					<dt id="bAlwaysProduceCompleteLogs">bAlwaysProduceCompleteLogs</dt>
+					<dd>In simple log mode, the log file is only opened after an insecurity is found. This setting controls whether Anti TCC should still keep track of any earlier log entries and write them to the opened log file when the first insecurity is detected.</dd>
+					<dt id="LogFileSaveInterval">LogFileSaveInterval</dt>
+					<dd>In order to access a log file while the server is running, it must be closed. A closed log file also has the advantage that it will be complete even if the server happens to crash for whatever reasons. This setting specifies how long Anti TCC will after writing to the custom log file before closing it.</dd>
+					<dt id="LogFileTimestampFormat">LogFileTimestampFormat</dt>
+					<dd>The format of the timestamp to prepend each log line with. Valid placeholders are "yyyy" and "yy" for the year, "mm" for the month, "dd" for the day of the month, "hh" for the hour, "nn" for the minutes, "ss" for the seconds, "f", "ff" and "fff" for fractions of the second (one, two and three digits after the decimal point, respectively), "w", "ww" and "www" for the day of the week (full name and first two/three chars, respectively) and "g" or "gggg" (right-aligned last 4 digits) for the game time in seconds as seen in stats log files.</dd>
+					<dt id="LogFileName">LogFileName</dt>
+					<dd>The name of the custom log file. Invalid characters are replaced with underscores. Possible placeholders are "%y" for the year, "%m" for the month, "%d" for the day of the month, "%h" for the hour, "%n" for the minutes, "%s" for the seconds, "%i" for the server's IP address, "%p" for it's port, "%g" for the current gametype and "%l" for the current level. The special placeholder "%a" can be used to switch from the default 24-hour format to a 12-hour format. It also inserts "am" or "pm".</dd>
+					<dt id="bSingleLineLogs">bSingleLineLogs</dt>
+					<dd>Usually insecurity logs are spread over up to four lines to make them easier to read. This setting will keep them on a single line to make them easier to process with a script.</dd>
+					<dt id="CurrentProfile">CurrentProfile</dt>
+					<dd>The current configuration profile. See <a href="#profiles">Using Configuration Profiles</a> for details.</dd>
+					<dt id="WaitingGameClass">WaitingGameClass</dt>
+					<dd>As you may or may not know, Anti TCC blocked the "PlayWaitingGame" console command because it was used to load cheats. Starting with release 6, Anti TCC instead remaps the command to "Mutate PlayWaitingGame", which can be used by spectators to play some kind of mini game configured here.<br/>
+					(Anti TCC does not come with any mini games. It will, however, make sure the package of the class entered here is added to the ServerPackages list. See <a href="#minigames">Mini games interface</a> if you are interested in creating a mini game that can be loaded via this feature.)</dd>
+					<dt id="AgreeEnableDelay">AgreeEnableDelay</dt>
+					<dd>The minimum delay before a player is allowed to agree to a custom agreement text.</dd>
+					<dt id="AgreementTimeoutDelay">AgreementTimeoutDelay</dt>
+					<dd>The maximum time a player is allowed to leave the custom agreement dialog open before he is kicked from the server to free up the player slot.</dd>
+					<dt id="AgreementText">AgreementText</dt>
+					<dd>A custom agreement text to display to the player before he can enter the server. This can be used to display server rules and give players a chance to back out if they don't agree.</dd>
+					<dt id="bAlwaysShowAgreement">bAlwaysShowAgreement</dt>
+					<dd>Usually a player only needs to read and agree to the server rules if he sees them for the first time. With this setting enabled, the player sees them every time. AgreeEnableDelay will have no effect if this setting is enabled.</dd>
+				</dl>
+
+				<h3 id="profiles">Using Configuration Profiles</h3>
+				<p>Anti TCC allows you to store more than one configuration in your server's INI file. These configuration profiles contain the same options as the <b>[AntiTCC_2026r3.MutAntiTCCFinal]</b> section of you INI file, but start with <b>[<i>profilename</i>&nbsp;AntiTCCSettings]</b>. To load a profile you have to add the parameter <b>?AntiTCCSettings=<i>profilename</i></b> to the map URL when switching maps with the <b>ServerTravel</b>command or on the server startup commandline, e.g.:</p>
+				<pre>ucc server DM-Rankin?mutator=AntiTCC_2026r3.MutAntiTCCFinal?AntiTCCSettings=1on1DM</pre>
+				<p>(Of course, the <samp>?mutator=AntiTCC_2026r3.MutAntiTCCFinal</samp> part isn't neccessary if you run Anti TCC as a server actor.)<br/>
+				You can also use the webadmin interface to specify a profile name in the <b>Current Profile</b> textbox.<br/>
+				You don't have to edit the server's INI file to create profiles. Just use the <samp>?AntiTCCSettings=</samp> parameter as described above with an unused profile name and the new profile will be created. You can then change the Anti TCC settings as usual in the webadmin interface. The changes will be saved to the specified Anti TCC profile once you restart or change the map.<br/>
+				When you return to a "profile-less" configuration, the last profile used will stay active, but changes aren't saved to that profile anymore. To disable profiles simply restart the map with the <samp>?AntiTCCSettings=</samp> parameter and leave the profile name empty or completely leave out the <samp>?AntiTCCSettings=</samp> parameter if there are other URL parameters like <samp>?game=</samp> or <samp>?mutator=</samp>. You can also change the <b>Current Profile</b> setting in the webadmin interface to "-" and restart the map.</p>
+			</div>
+
+			<div class="toplink">[<a href="#top">top</a>]</div>
+			<h2 id="hfeatures">Client Features</h2>
+			<p>Apart from the cheat detection on the server, Anti TCC also offers a number of features that can be used by all players. The server admin can choose to disable these by turning off client messages entirely, but on most servers this is not the case.</p>
+			<dl>
+				<dt>Client console log</dt>
+				<dd>Anti TCC always logs all its console messages clientsidely to a file called AntiTCC_ClientConsoleLog.log in the UT2004\UserLogs directory. The log file is shared among all Anti TCC versions and not reset automatically, so it can become quite large over time.</dd>
+				<dt>Silent admin login</dt>
+				<dd>Clients are notified on connect whether this feature is <a href="#bAllowSilentAdminLogin">enabled</a> on the server. If it is, players and spectators on the server can use the command <kbd>SilentAdminLogin</kbd> with their usual login name and password to become an admin. Unlike with the regular <kbd>AdminLogin</kbd> command, their admin status will not be visible to any clients. A silently logged-in admin can use most administrative commands, though some might not work correctly or at all.</dd>
+				<dt>Player ID listing</dt>
+				<dd>Players can use the console command <kbd>ShowIDs</kbd> to check the identity of other players on the server, unless the server admin has <a href="#bClientsMayGetIDs">disabled</a> this feature. The command will send back a list of all players and spectators on the server, including their (potentially masked) IDs and a unique player number for that match. Bots are also listed for reference, but for obvious reasons without a player ID.</dd>
+				<dt>Other nicks used by a player</dt>
+				<dd>For any human player or spectator on the server, including yourself, you can find out what other nicks were used with the command <kbd>Whois</kbd>, followed by the player name. If the name of the player you want to check is too complicated, you can type just a sufficiently unique part of the name or the character '#' followed by the number the <kbd>ShowIDs</kbd> command listed for that player.<br/>
+				Admins can disable this command entirely or restrict it to only the name history or the player ID.</dd>
+				<dt>Info about players not currently on the server</dt>
+				<dd>The third command for information about players is <kbd>WhoWas</kbd>, which must be followed either by a full player ID or a full player name. If an ID is specified, the command will list all nicks used by the player with that ID and when the player was last seen on the server. For names, the command first looks up all IDs that used the name and then lists other names also used by those IDs.<br/>
+				Admins can disable this command by restricting clients from seeing ID or names.</dd>
+				<dt>Echo command</dt>
+				<dd>Since UT2004 doesn't provide any way to display console messages clientsidely via a console command, Anti TCC provides the echo command. This is similar to the echo command available on UTComp servers. To use it, just type <kbd>Echo</kbd>, followed by the text you want to display in your chat area. Nobody else will see the text, it never leaves your client.</dd>
+				<dt>Admin slap/kill commands</dt>
+				<dd>Anti TCC allows admins to slap or kill players via console commands. Available commands are:
+				<ul>
+				<li><kbd>Slap</kbd> &ndash; Slaps the specified player once for 10 points of damage. Slapping kicks a player out of vehicles and turrets.</li>
+				<li><kbd>Kill</kbd> &ndash; Kills the specified player with the "best" method available. Outdoors this is either "toast" or "strike", indoors it's usually "blowup". This command never selects "slapkill".</li>
+				<li><kbd>RandomKill</kbd> &ndash; Kills the specified player with a random method as listed below.</li>
+				<li><kbd>Toast</kbd> &ndash; The specified player is killed by a laser beam fired from an orbital satellite. This only works after an Ion Painter was used or the map originally contained an Ion Cannon satellite.</li>
+				<li><kbd>Strike</kbd> &ndash; The specified player is struck by lightning. This only works outdoors or at least requires considerable room above the player.</li>
+				<li><kbd>BlowUp</kbd> &ndash; The specified player explodes spontaneously.</li>
+				<li><kbd>SlapKill</kbd> &ndash; The specified player is slapped again and again until he or she dies.</li>
+				</ul>
+				Neither of these methods will damage other players directly. Note that vehicles exploding as a result of a kill might still hurt other players, though.<br/>
+				The player can be specified the same way as in the WhoIs command, but additionally you can also specify bot names if you want to try it out on an otherwise empty server.</dd>
+			</dl>
+
+			<div class="toplink">[<a href="#top">top</a>]</div>
+			<h2 id="hpaq">Potentially Asked Questions</h2>
+			<dl>
+				<dt>How do I find out the MD5 value(s) for the Checks=... list?</dt>
+				<dd>
+					There are two different types of MD5's that can be generated. QuickMD5 rely on the fact that the package is already loaded. This is a very fast MD5 that's great for large files (like PlayerSkins.utx). The downside is it's only available for actual UT2004 packages. Full MD5s generate a full fledge MD5 hash of any file.<br/>
+					You can obtain a Full MD5 of any file by using the following UCC commandlet:
+					<pre>UCC MasterMD5 -f <var>filename</var></pre>
+					This will give you the 32 digit MD5 you need for the MD5 field above. Careful when checking stock .U files, they might be different in every patch, so you will have to add all MD5s of the different versions of those files.<br/>
+					You can obtain a quick MD5 of any package by using the UCC commandlet:
+					<pre>UCC MasterMD5 -q <var>packagename</var></pre>
+					Rember that you do not need to include the path or file extension for quick MD5s as UT2004 will use its internal package loading code to open it.<br/>
+					MasterMD5 will always only give you the MD5 of one version of a file. Keep in mind that because of patches or different releases there might be more than one version of a file you wish to check.<br/>
+					You do not need to add the Anti TCC package or stock skin packages to the MD5 checks, these are checked automatically.
+				</dd>
+				<dt>Are there any known bugs in this release?</dt>
+				<dd>
+					<!--Not at this time. This section will be updated if any bugs are found.-->
+					Unfortunately, yes:
+					<ul>
+						<li>The way Anti TCC secures the console breaks admin menu commands of UT2Vote up to version 57 and some other mods. (These mods access the console though InteractionMaster.Console, which conflicts with Anti TCC's secured console feature. This must be fixed in those mods, I can't do anything about it.)<br/><a href="http://www.proasm.com/">ProAsm</a> updated all his mods to fix this incompatibility.</li>
+					</ul>
+				</dd>
+				<dt>What has changed since 2009 release 6?</dt>
+				<dd>
+					<ul>
+						<li>Added support for OldUnreal 3374 patch</li>
+					</ul>
+				</dd>
+				<dt>What has changed since release 5?</dt>
+				<dd>
+					<ul>
+						<li>Fixed a bug where the in-game chat menu did not update when new chat lines arrived.</li>
+						<li>Fixed mouse sensitivity changes via the settings menu not having any effect while playing on an Anti TCC server.</li>
+						<li>Improved interaction between bMidGameCheck, bMultipleMidGameChecks and bEndGameCheck settings. bMultipleMidGameChecks=False now ensures there is at most a single mid-game check between map changes. End-game checks between Onslaught/Assault rounds no longer count as mid-game check for bMultipleMidGameChecks=False.</li>
+						<li>Improved kick behavior during initial checks. Package, class and skin checks are skipped if a kick-worthy insecurity was detected in an earlier stage.</li>
+						<li>Added mandatory FullMD5 checks for Core, Engine, UnrealGame, XGame and XInterface packages with allowed MD5s being those from UT2004 v3369 and Logitech G15 patch v3372.</li>
+						<li>Older versions than v3369 are no longer supported.</li>
+						<li>Fixed bSpawnFakePlayers=False not working.</li>
+						<li>Added Anti TCC version to server details. (configurable)</li>
+						<li>Added log messages about duplicate prefetch/disallow/MD5 checks.</li>
+						<li>Added admin login monitoring.</li>
+						<li>Added log timestamp placeholders for fractional seconds and game time. (not used by default)</li>
+						<li>Potentially fixed players being invisible during demo playback in some cases.</li>
+					</ul>
+				</dd>
+				<dt>What has changed since release 4?</dt>
+				<dd>
+					<ul>
+						<li>Fake players are back. They are less resource demanding this time and do a fine job distracting radars and aimbots not falling for Anti TCC's other distraction techniques, such as <i>pretending</i> players are fake.</li>
+						<li>Removed UTAN-related messages. I'll add these back in after UTAN is revived.</li>
+						<li>Reverted to UT2004 ping calculation to comfort whiny players who can't handle the truth.</li>
+						<li>Improved clientside mod support for silent admin login.</li>
+						<li>Excluded vehicles from pawn hiding code. This fixes a bunch of bugs, like turrets looking weird or vehicles briefly vanishing on destruction.</li>
+						<li>Quick MD5 check now ensures the package to check is actually loaded.</li>
+						<li>Improved log output of failed MD5 checks.</li>
+						<li>Fixed another bug in the SET console command for unqualified class names, such as "set input <i>key</i> <i>command</i>".</li>
+						<li>Added some important classes to the integrity checks.</li>
+					</ul>
+				</dd>
+				<dt>What has changed since release 3?</dt>
+				<dd>
+					<ul>
+						<li>Fixed a rotation lock problem that could affect player rotation on end of AVRiL lock.</li>
+						<li>Fixed a display bug in the WhoWas command.</li>
+						<li>In Assault, the ResetTimeDelay is only extended to at least 15 seconds if the practice round is disabled.</li>
+						<li>Long ambient sounds are only disabled if the client has disabled music.</li>
+						<li>Unknown classes in packages that don't exist on the server will no longer be reported if the package is in the list of MD5 checks. This means you don't need to install voice and announcer packs on your server anymore just to allow them on clients. A QuickMD5 (or FullMD5) entry will be enough to "whitelist" them.</li>
+						<li>Added detection and workaround for player slot exploits.</li>
+						<li>Merged in Custom Punishments code. Admins (including silently logged-in ones) can now slap or kill annoying players.</li>
+						<li>Improved efficiency of blacklisted keybind detection.</li>
+						<li>Added 'Mutate AntiTCC GetServerTickRate' (or 'GetServerTickRate' for short), which will display the server's current tick rate in the console.</li>
+					</ul>
+				</dd>
+				<dt>What has changed since release 2?</dt>
+				<dd>
+					<ul>
+						<li>Fixed the SET command filter, which incorrectly blocked "set Input [key] [command]".</li>
+						<li>Fixed a default prefetch check entry that could possibly cause false positives.</li>
+						<li>Improved key reset code for Input Inconsistency checks.</li>
+						<li>Addressed some crashes related to replaced shadow projectors (client) and cleanup of player ID log files. (server) Not sure if those are actually fixed now or were just symptoms of other problems.</li>
+						<li>The server's current and maximum tick rate is now displayed in the server details box of the server browser and mid-game menu rules tab.</li>
+						<li>Fixed not being able to look up or down when standing on moving vehicles.</li>
+						<li>Fixed not being able to fire while driving vehicles</li>
+						<li>Sanity check: Prevented running Anti TCC and SafeGame at the same time - they are simply not compatible.</li>
+						<li>Fixed client demo playback view direction.</li>
+					</ul>
+				</dd>
+				<dt>What has changed since release 1?</dt>
+				<dd>
+					<ul>
+						<li>Fixed zoom of Assault turrets and FOV changes of space fighters.</li>
+						<li>Fixed a few other instances of WhatToDo=LogOnly incorrectly overriding more specific cheat reactions.</li>
+						<li>The console font no longer changes randomly.</li>
+						<li>Fixed random initial rotation when entering Onslaught energy turrets or vehicle passenger seats.</li>
+						<li>End-game checks can now also be performed at the end of non-final rounds in Assault, Onslaught and similarly structured gametypes.</li>
+					</ul>
+				</dd>
+				<dt>What has changed since Anti TCC v1.19 Beta 26?</dt>
+				<dd>
+					Major new features are:
+					<ul>
+						<li>Secured console class. This should definitely lock down the console commands most UnrealScript cheats are loaded with.</li>
+						<li>Detecting REND console command abuse. These commands can be used offline and persist into network games. They can be abused to make invisible players much easier to see, even at a distance.</li>
+						<li>The INI file name for player IDs is no longer restricted to predefined values. Also starting with this version, all Anti TCC versions will share the same section in the INI file. IDs from v1.19 and earlier still need to be imported manually. The new shared section name is [AntiTCC PlayerIDs] and the standard INI file is AntiTCCPlayerIDs.ini.</li>
+						<li>Admins who have used LockFOV.u before can enable that feature within Anti TCC now.</li>
+					</ul>
+					There are also a few major bugfixes:
+					<ul>
+						<li>Shadows of players and vehicles are rendered again.</li>
+						<li>The WhatToDoBlacklisted setting now works correctly even with WhatToDo=LogOnly</li>
+						<li>That "Runaway loop detected" crash some players were experiencing on startup should now only happen very rarely, if at all. (I can't really prevent it entirely, and somehow I think it's related to a garbage collection bug outside Anti TCC.)</li>
+						<li>A bug that caused menus to close when spectating another player has been fixed. This bug might also be responsible for other weird behavior in previous Anti TCC versions.</li>
+						<li>bRotationLock=True will no longer cause the view to spin around randomly under certain conditions.</li>
+					</ul>
+					This list likely isn't complete.
+				</dd>
+				<dt>What has changed since the last official version, Anti TCC v1.18c?</dt>
+				<dd>Oh, quite a lot. Some of the highlights:
+					<ul>
+						<li>Auto-pause while a player reconnects during the match. (For competitive matches, includes countdown before match continues.)</li>
+						<li>Special handling for certain illegal CD keys.</li>
+						<li>Custom player agreement texts, e.g. for server rules. Players have to agree before allowed to join the game.</li>
+						<li>Improved secure PlayerController class. Checks for chat spam, mass suicide, unusually high frequency of nick changes. Prevents certain movement hacks and some lag attacks against the game server.</li>
+						<li>Improved simple log mode, optionally also logging whatever happened between the start of the match and the first insecurity.</li>
+						<li>View rotation and audio rolloff locks.</li>
+						<li>Detection of certain server crash attempts.</li>
+						<li>Improved package and data integrity checks.</li>
+					</ul>
+				</dd>
+				<dt>What's MD5Type=1?</dt>
+				<dd>
+					The MD5Type 1 ("Code MD5") calculates MD5 hashed of UnrealScript functions. Unfortunately this is broken because the hash is calculated in memory and will likely change the next time UT2004 loads. The only useful application for Code MD5 is to check for functions that shouldn't actually exist. "Engine.HudOverlay.Tick" is such an example. This function does not exist in UT2004, but some hacked Engine.u packages contain it. This can be detected by adding an optional MD5 check for FName="Engine.HudOverlay.Tick" and MD5Type=1 with the MD5=("not allowed").<br/>
+					This is actually a built-in check in Anti TCC 2009, but you can use it in v1.19 and earlier versions. Just ignore any warnings about the unknown MD5 type Anti TCC might log on startup.
+				</dd>
+				<dt id="minigames">How does a mini game need to be structured so it can be loaded via "PlayWaitingGame"?</dt>
+				<dd>Anti TCC doesn't expect much from the mini game loader, i.e. the class specified in the <a href="#WaitingGameClass">WaitingGameClass</a> setting. There are really only two requirements:
+					<ul>
+						<li>The class must be a <a href="http://wiki.beyondunreal.com/Abstract">non-abstract</a> subclass of class <a href="http://wiki.beyondunreal.com/UE2:Info_%28UT2004%29">Info</a>.</li>
+						<li>The class should override <a href="http://wiki.beyondunreal.com/UE2:Actor_%28UT2004%29#GetLocalString">GetLocalString()</a> to return the name of the game when no parameters are passed. Alternatively, if the GetLocalString() function returns an empty string, which is the default implementation, Anti TCC just uses the class name.</li>
+					</ul>
+					Anti TCC will spawn an instance of the mini game loader serversidely whenever a spectator uses the PlayWaitingGame command, with the spectator's <a href="http://wiki.beyondunreal.com/UE2:PlayerController_%28UT2004%29">PlayerController</a> as the <a href="http://wiki.beyondunreal.com/UE2:Actor_internal_variables_%28UT2004%29#Owner">Owner</a> of the loader instance. After the instance has been spawned, it is abandoned and expected to perform any steps required to load the mini game clientsidely.<br/>
+					Note that Anti TCC will not check if the game is already running, that is entirely up to the mini game loader. Also, the loader instance is not destroyed by Anti TCC. It should remove itself when it is no longer needed.
+				</dd>
+				<dt>Where did the AntiTCC commandlet go?</dt>
+				<dd>I removed it after changing the way player IDs are logged. If you want it back, please tell me and I'll try to make it work again for the next release.</dd>
+				<dt>You said you were never going to touch Anti TCC again.</dt>
+				<dd>So what? That's not even a question!</dd>
+			</dl>
+		</div>
+	</body>
+</html>
